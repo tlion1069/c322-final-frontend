@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <div class="topnav" style="float: right;list-style-type: none; display:inline;">
-        <a href="">Track Order</a>
-        <a href="">Help</a>
-        <a>Login</a>
-        <a>Shopping Cart</a>
+        <a href="order.html">Track Order</a>
+        <a href="help.html">Help</a>
+        <a href="login.html">Login</a>
+        <a href="cart.html">Shopping Cart</a>
       </div>
 </head>
 <body>
@@ -36,11 +36,57 @@
         <option>Green</option>
         <option>Orange</option>
     </select>
-    <select id="sort" style="float: right;">
+    <select id="sort" style="float: right;" onchange="sort()">
         <option>Sort By</option>
-        <option>Price: Low to High</option>
-        <option>Price: High to Low</option>
+        <option value="1">Price: Low to High</option>
+        <option value="2">Price: High to Low</option>
     </select>
 </div>
+<div id="pond"></div>
+<script>
+    let host = "http://localhost:8080";
+    let flowers = [];
+    displayTheFlowers();
+
+    async function getAll() {
+      let response = await fetch(host + "/flowers");
+      let result = await response.json();
+      return result;
+    }
+
+    async function displayTheFlowers() {
+      if (ducks.length == 0) {
+        ducks = await getAll();
+      }
+
+      let pond = document.getElementById("pond");
+      pond.innerHTML = "";
+
+      for (let flower of flowers) {
+        let div = document.createElement("div");
+        div.className = "flip-card";
+        let innerHtml = `
+          <div class="flip-card-inner" onclick="order(${flower.id})">
+            <div class="flip-card-front">
+             <img
+                 src="${host}/image/${flower.id}"
+                 alt="Flower"
+                 style="width: 100%"
+              />
+            </div>
+            <div class="flip-card-back">
+              <h1>${flower.name}</h1>
+              <p>${flower.price}</p>
+             </div>
+          </div>
+          `;
+        div.innerHTML = innerHtml;
+        pond.appendChild(div);
+      }
+      function order(id){
+        location.href="order.html?id=" + id;
+      }
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body id = "body">
+    <div class="image"></div>
+</body>
+<script>
+    host = "http://localhost:8080";
+    loadTheOrder();
+    function loadTheOrder(){
+        let url = new URLSearchParams(window.location.search);
+        var flower = url.get('id');
+        let body = document.getElementById("body");
+        let div = createElement("div");
+        let innerHTML = `
+        <img
+                 src="${host}/image/${id}"
+                 alt="Flower"
+                 style="width: 100%"
+              />`
+    }
+</script>
+</html>
